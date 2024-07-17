@@ -1,4 +1,7 @@
 <%@page import="model.User" %>
+<%@page import="model.Message" %>
+<%@page import="java.util.*" %>
+<%@page import="Dao.UserDao" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -56,6 +59,9 @@
 	  response.sendRedirect("user-login.jsp");
   }
   %>
+  <%
+  List<Message> l1=new ArrayList<Message>();
+  %>
   <!-- ======= Header ======= -->
   <header id="header" class="fixed-top d-flex align-items-center">
     <div class="container d-flex align-items-center">
@@ -67,7 +73,7 @@
       <nav id="navbar" class="navbar">
         <ul>
           <li><a href="index.jsp" class="active">Home</a></li>
-			<li><a href="new_msg.jsp" class="active">New Messages</a></li>
+			<li><a href="new_msg.jsp" class="active">New Messages(<%=l1.size() %>)</a></li>
           <li class="dropdown"><a href="#"><span><%=u.getFname() %></span> <i class="bi bi-chevron-down"></i></a>
             <ul>
             	<li><a href="message.jsp">Send Message</a></li>

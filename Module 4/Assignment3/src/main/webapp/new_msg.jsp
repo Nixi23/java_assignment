@@ -1,4 +1,6 @@
 <%@page import="model.Message" %>
+<%@page import="Dao.UserDao" %>
+<%@page import="java.util.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@include file="user-header.jsp" %>
@@ -9,36 +11,37 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
-Message m=new Message();
-out.println(m.getTo());
-%>
 <section class="login_box_area section_gap">
 		<div class="container">
-			<div class="row">
-				
-				<div class="col-lg-6">
-					<div class="login_form_inner">
-						<form class="row login_form"
-							action="UserController"
-							method="post" id="contactForm" novalidate="novalidate">
-							<br>
-							<input type="hidden" name="from" value="<%=u.getEmail() %>" >
-							<input type="hidden" name="to" value="<%=m.getTo() %>" >
-							<div class="col-md-12 form-group">
-								<input type="textarea" class="form-control" id="name" name="msg"
-									placeholder="Enter Message" onfocus="this.placeholder = ''"
-									onblur="this.placeholder = 'Enter Message'">
-							</div>
-							<br><br>
-							
-							<div class="col-md-12 form-group">
-								<button type="submit" name="action" value="reply" class="primary-btn">Reply</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+		<br><br>
+			 <table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Message</th>
+								<th scope="col">Email</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+						<%List<Message> list = UserDao.getAllMessageByEmail(u.getEmail()); %>
+						<%for(Message p :list){ %>
+							<tr>
+								<td>
+									<h5><%=p.getMsg() %></h5>
+								</td>
+								<td>
+									<h5><%=p.getFrom() %></h5>
+								</td>
+								
+								<td>
+									<h5><a href="UserController?action=reply&from_email=<%=p.getFrom() %>&to_email=<%=p.getTo() %>" >
+									 <span class="ti-bag"></span><p class="hover-text">Reply</p></a> 
+								</td>
+							</tr>
+							<%} %>
+						</tbody>
+					</table>
+	
 		</div>
 	</section>
 

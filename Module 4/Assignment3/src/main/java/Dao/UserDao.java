@@ -3,6 +3,8 @@ package Dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import Connectivity.DBConnectivity;
 import model.Message;
@@ -84,7 +86,7 @@ public class UserDao {
 		try
 		{
 			Connection conn=DBConnectivity.createConnection();
-			String sql="insert into messge(u_id,from_email,to_email,msg) values(?,?,?,?)";
+			String sql="insert into message(u_id,from_email,to_email,msg) values(?,?,?,?)";
 			PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setInt(1, m.getUid());
 			pst.setString(2, m.getFrom());
@@ -117,6 +119,33 @@ public class UserDao {
 		{
 			e.printStackTrace();
 		}
+	}
+	public static List<Message> getAllMessageByEmail(String email)
+	{
+		System.out.println(email);
+		List<Message> l1=new ArrayList<Message>();
+		try
+		{
+			Connection conn=DBConnectivity.createConnection();
+			String sql="select * from message where to_email=?";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, email);
+			ResultSet rs=pst.executeQuery();
+			while(rs.next());
+			{
+				Message m1=new Message();
+				m1.setUid(rs.getInt("u_id"));
+				m1.setFrom(rs.getString("from_email"));
+				m1.setTo(rs.getString("to_email"));
+				m1.setMsg(rs.getString("msg"));
+				l1.add(m1);
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return l1;
 	}
 	
 }
